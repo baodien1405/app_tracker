@@ -31,13 +31,16 @@ class SelectCountries extends Component {
   }
 
   getData = () => {
-    fetch('https://api.covid19api.com/countries')
+    fetch('https://api.covid19api.com/summary')
       .then((res) => res.json())
       .then((data) => {
         let id = 1;
-        const dataWithId = data.map((x) => Object.assign({}, x, { id: id++}));
+        let dataWithId = data.Countries.map((x) => Object.assign({}, x, { id: id++}));
+        dataWithId = dataWithId.sort((a, b) => {
+          return a.Country - b.Country;
+        });
         this.setState({rows: dataWithId});
-        this.props.handleTotalCountry(data.length)
+        this.props.handleTotalCountry(dataWithId.length)
       },
       (error) => {
         console.log(error);

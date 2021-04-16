@@ -5,9 +5,9 @@ class Country extends Component {
   constructor(props) {
     super(props);
     const columns = [
-      { field: 'Country', headerName: 'Country', width: 150 },
-      { field: 'Slug', headerName: 'Slug', width: 150 },
-      { field: 'ISO2', headerName: 'ISO2', width: 150 },
+      { field: 'Country', headerName: 'Country', width: 250 },
+      { field: 'NewConfirmed', headerName: 'NewConfirmed', width: 250 },
+      { field: 'TotalConfirmed', headerName: 'TotalConfirmed', width: 150 },
     ];
     this.state = {
       rows: [],
@@ -19,11 +19,14 @@ class Country extends Component {
   }
 
   getData = () => {
-    fetch('https://api.covid19api.com/countries')
+    fetch('https://api.covid19api.com/summary')
       .then((res) => res.json())
       .then((data) => {
         let id = 1;
-        const dataWithId = data.map((x) => Object.assign({}, x, { id: id++}));
+        let dataWithId = data.Countries.map((x) => Object.assign({}, x, { id: id++}));
+        dataWithId = dataWithId.sort((a, b) => {
+          return a.Country - b.Country;
+        });
         this.setState({rows: dataWithId})
       },
       (error) => {
@@ -34,7 +37,7 @@ class Country extends Component {
 
   render() {
     return (
-      <div style={{ height: 700, width: '100%' }}>
+      <div style={{ height: 500, width: '100%' }}>
         <DataGrid rows={this.state.rows} columns={this.state.columns} />
       </div>
     );
