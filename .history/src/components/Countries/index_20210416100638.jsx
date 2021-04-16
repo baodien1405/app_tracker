@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { DataGrid } from "@material-ui/data-grid";
-import moment from "moment";
 
 class Country extends Component {
   constructor(props) {
@@ -9,8 +8,6 @@ class Country extends Component {
       { field: "Country", headerName: "Country", width: 250 },
       { field: "NewConfirmed", headerName: "NewConfirmed", width: 250 },
       { field: "TotalConfirmed", headerName: "TotalConfirmed", width: 150 },
-      { field: "NewDeaths", headerName: "NewDeaths", width: 150 },
-      { field: "FormatDate", headerName: "Date", width: 150 },
     ];
     this.state = {
       rows: [],
@@ -25,12 +22,7 @@ class Country extends Component {
   }
 
   static getDerivedStateFromProps(props, state) {
-    const displayData = state.displayData.filter((data) => {
-      return (
-        data.Country === props.selectedCountry || props.selectedCountry === ""
-      );
-    });
-    return { displayData };
+    return { displayData: this.state.displayData };
   }
 
   getData = () => {
@@ -38,13 +30,9 @@ class Country extends Component {
       .then((res) => res.json())
       .then(
         (data) => {
-          let dataWithId = data.Countries.map((x, index) =>
-            Object.assign(
-              {},
-              x,
-              { id: index },
-              { FormatDate: moment(x.Date).format("DD/MM/YYYY") }
-            )
+          let id = 1;
+          let dataWithId = data.Countries.map((x) =>
+            Object.assign({}, x, { id: id++ })
           );
           dataWithId = dataWithId.sort((a, b) => {
             return a.Country - b.Country;
@@ -61,7 +49,7 @@ class Country extends Component {
   render() {
     return (
       <div style={{ height: 500, width: "100%" }}>
-        <DataGrid rows={this.state.displayData} columns={this.state.columns} />
+        <DataGrid rows={this.state.rows} columns={this.state.columns} />
       </div>
     );
   }

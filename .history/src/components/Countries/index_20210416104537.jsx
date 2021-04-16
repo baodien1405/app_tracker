@@ -39,12 +39,7 @@ class Country extends Component {
       .then(
         (data) => {
           let dataWithId = data.Countries.map((x, index) =>
-            Object.assign(
-              {},
-              x,
-              { id: index },
-              { FormatDate: moment(x.Date).format("DD/MM/YYYY") }
-            )
+            Object.assign({}, x, { id: index }, { Formatdate: moment(x.Date) })
           );
           dataWithId = dataWithId.sort((a, b) => {
             return a.Country - b.Country;

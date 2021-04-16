@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { DataGrid } from "@material-ui/data-grid";
-import moment from "moment";
 
 class Country extends Component {
   constructor(props) {
@@ -10,7 +9,6 @@ class Country extends Component {
       { field: "NewConfirmed", headerName: "NewConfirmed", width: 250 },
       { field: "TotalConfirmed", headerName: "TotalConfirmed", width: 150 },
       { field: "NewDeaths", headerName: "NewDeaths", width: 150 },
-      { field: "FormatDate", headerName: "Date", width: 150 },
     ];
     this.state = {
       rows: [],
@@ -39,12 +37,7 @@ class Country extends Component {
       .then(
         (data) => {
           let dataWithId = data.Countries.map((x, index) =>
-            Object.assign(
-              {},
-              x,
-              { id: index },
-              { FormatDate: moment(x.Date).format("DD/MM/YYYY") }
-            )
+            Object.assign({}, x, { id: index })
           );
           dataWithId = dataWithId.sort((a, b) => {
             return a.Country - b.Country;

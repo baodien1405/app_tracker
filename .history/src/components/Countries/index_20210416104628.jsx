@@ -43,7 +43,7 @@ class Country extends Component {
               {},
               x,
               { id: index },
-              { FormatDate: moment(x.Date).format("DD/MM/YYYY") }
+              { FormatDate: moment(x.Date, "dd:mm:yyyy") }
             )
           );
           dataWithId = dataWithId.sort((a, b) => {

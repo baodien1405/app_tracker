@@ -11,7 +11,6 @@ class App extends Component {
 
   handleChangeCountry = (country) => {
     console.log("App:", country);
-    this.setState({ selectedCountry: country });
   };
 
   render() {
